@@ -3,6 +3,7 @@
 require 'json'
 require 'api_utils'
 require 'rubyipmi'
+require 'pry'
 
 module Hanlon
   module WebService
@@ -37,6 +38,7 @@ module Hanlon
 
         rescue_from :all do |e|
           #raise e
+          binding.pry if ENV['DEBUG']
           Rack::Response.new(
               Hanlon::WebService::Response.new(500, e.class.name, e.message).to_json,
               500,

@@ -1,4 +1,5 @@
 require "json"
+require "pry"
 
 # Root ProjectHanlon namespace
 module ProjectHanlon
@@ -83,6 +84,7 @@ module ProjectHanlon
         if @node
           old_state = @current_state
           old_state = :init unless old_state
+          binding.pry if ENV['DEBUG']
           begin
             if fsm[@current_state][action] != nil
               @current_state = fsm[@current_state][action]
