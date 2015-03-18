@@ -84,7 +84,10 @@ module ProjectHanlon
         if @node
           old_state = @current_state
           old_state = :init unless old_state
-          binding.pry if ENV['DEBUG']
+          binding.pry if @current_state.class == String #ENV['DEBUG']
+          # not sure why this shows up as as string
+          # when we use the memory persists
+          @current_state = @current_state.to_sym
           begin
             if fsm[@current_state][action] != nil
               @current_state = fsm[@current_state][action]

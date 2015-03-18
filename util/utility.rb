@@ -48,9 +48,12 @@ module ProjectHanlon
           if hash[key]["@classname"]
             self.instance_variable_set(key, ::Object::full_const_get(hash[key]["@classname"]).new(hash[key])) unless key.to_s.start_with?("_")
           else
-            self.instance_variable_set(key, value) unless key.to_s.start_with?("_")
+            value = value.to_sym if key == "@current_state"
+            self.instance_variable_set(key, value) unless key.to_s.start_with?("
+_")
           end
         else
+          value = value.to_sym if key == "@current_state"
           self.instance_variable_set(key, value) unless key.to_s.start_with?("_")
         end
       end

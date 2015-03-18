@@ -2,6 +2,7 @@
 
 require "singleton"
 require "json"
+require "pry"
 
 module ProjectHanlon
   class Engine < ProjectHanlon::Object
