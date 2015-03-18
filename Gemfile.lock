@@ -14,8 +14,6 @@ GEM
       thread_safe (~> 0.3, >= 0.3.1)
     base62 (1.0.0)
     bson (1.12.0)
-    bson_ext (1.12.0)
-      bson (~> 1.12.0)
     builder (3.2.2)
     coderay (1.1.0)
     coercible (1.0.0)
@@ -116,7 +114,6 @@ PLATFORMS
 DEPENDENCIES
   base62
   bson
-  bson_ext
   colored
   daemons
   facter
