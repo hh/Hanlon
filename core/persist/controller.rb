@@ -40,8 +40,13 @@ module ProjectHanlon
         elsif (config.persist_mode == :yaml)
           logger.debug "Using yaml plugin"
           #require "project_hanlon/persist/memory_plugin" unless ProjectHanlon::Persist.const_defined?(:YamlPlugin)
-          require "persist/yaml_plugin" unless ProjectHanlon::Persist.const_defined?(:YamlPlugin)
+          require "persist/yaml_plugin" unless ProjectHanlon::Persist.const_defi
+ned?(:YamlPlugin)
           @database = ProjectHanlon::Persist::YamlPlugin.new
+        elsif (config.persist_mode == :json)
+          logger.debug "Using json plugin"
+          require "persist/json_plugin" unless ProjectHanlon::Persist.const_defined?(:JsonPlugin)
+          @database = ProjectHanlon::Persist::JsonPlugin.new
         else
           logger.error "Invalid Database plugin(#{config.persist_mode})"
           return;
