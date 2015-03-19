@@ -38,7 +38,8 @@ module Hanlon
 
         rescue_from :all do |e|
           #raise e
-          binding.pry if ENV['DEBUG']
+          puts "An internal error occuring serving this request #{e.message}"
+          puts e.backtrace
           Rack::Response.new(
               Hanlon::WebService::Response.new(500, e.class.name, e.message).to_json,
               500,
