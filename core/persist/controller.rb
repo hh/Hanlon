@@ -37,6 +37,11 @@ module ProjectHanlon
           #require "project_hanlon/persist/memory_plugin" unless ProjectHanlon::Persist.const_defined?(:MemoryPlugin)
           require "persist/memory_plugin" unless ProjectHanlon::Persist.const_defined?(:MemoryPlugin)
           @database = ProjectHanlon::Persist::MemoryPlugin.new
+        elsif (config.persist_mode == :yaml)
+          logger.debug "Using yaml plugin"
+          #require "project_hanlon/persist/memory_plugin" unless ProjectHanlon::Persist.const_defined?(:YamlPlugin)
+          require "persist/yaml_plugin" unless ProjectHanlon::Persist.const_defined?(:YamlPlugin)
+          @database = ProjectHanlon::Persist::YamlPlugin.new
         else
           logger.error "Invalid Database plugin(#{config.persist_mode})"
           return;
