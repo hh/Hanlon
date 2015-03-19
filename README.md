@@ -3,6 +3,8 @@
 
 # Project Hanlon (v2.2.0)
 
+[![Join the chat at https://gitter.im/csc/Hanlon](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/csc/Hanlon?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 ## Introduction
 
 Project Hanlon is a power control, provisioning, and management application

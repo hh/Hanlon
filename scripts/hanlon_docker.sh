@@ -3,9 +3,8 @@ HANLON_SOURCE_PATH="$(git rev-parse --show-toplevel)"
 HANLON_STATIC_PATH="/opt/hanlon/static"
 HANLON_IMAGE_PATH="/opt/hanlon/image"
 HANLON_DATA_PATH="/opt/hanlon/data/db"
-DOCKER_HOST="192.168.42.10"
-HANLON_SUBNETS="192.168.42.0/24,172.17.0.0/16"
-
+DOCKER_HOST=$(ip addr show dev $(ip route list 0/0 | awk '{print $5}') | awk '/inet / {gsub(/\/.*$/, "", $2); print $2}')
+HANLON_SUBNETS="$(ip route list | grep $DOCKER_HOST | awk '{print $1}'),172.17.0.0/16"
 unset http_proxy
 
 if [[ $# -eq 0 ]] ; then
@@ -14,6 +13,7 @@ if [[ $# -eq 0 ]] ; then
   echo "  start   - Starts all Hanlon containers, stopping/removing if they exist"
   echo "  stop    - Stops/removes all Hanlon containers"
   echo "  restart - Restarts only hanlon-server container, to reload source"
+  echo "  pull    - Update docker images from online repositories"
   echo
   exit 0
 fi
@@ -78,4 +78,11 @@ if [[ "$1" == "restart"  ]] ; then
                   -v $HANLON_SOURCE_PATH:/home/hanlon \
                   --name hanlon-server --link hanlon-mongodb:mongo cscdock/hanlon
 
+fi
+
+if [[ "$1" == "pull" ]] ; then
+  sudo docker pull cscdock/hanlon
+  sudo docker pull cscdock/hanlon-client
+  sudo docker pull cscdock/atftpd
+  sudo docker pull dockerfile/mongodb
 fi

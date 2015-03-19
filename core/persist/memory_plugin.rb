@@ -47,7 +47,7 @@ module ProjectHanlon
       # @return [Array<Hash>]
       #
       def object_doc_get_all(collection_name)
-        @collections[collection_name].values.map {|e| JSON.parse!(e[:json]) }
+        @collections[collection_name].values.map {|e| Utility.decode_symbols_in_hash(JSON.parse!(e[:json])) }
       end
 
       # Returns the entry keyed by the '@uuid' of the given 'object_doc' from the collection
@@ -60,7 +60,7 @@ module ProjectHanlon
       def object_doc_get_by_uuid(object_doc, collection_name)
         entry = @collections[collection_name][object_doc['@uuid']]
         if entry
-          JSON.parse!(entry[:json])
+          Utility.decode_symbols_in_hash(JSON.parse!(entry[:json]))
         else
           nil
         end
@@ -74,7 +74,8 @@ module ProjectHanlon
       # @return [Hash] The updated doc
       #
       def object_doc_update(object_doc, collection_name)
-        uuid = object_doc['@uuid']
+        encoded_object_doc = Utility.encode_symbols_in_hash(object_doc)
+        uuid = encoded_object_doc['@uuid']
         raise ArgumentError.new('Document has no uuid') if uuid === nil
 
         entries = @collections[collection_name]
@@ -84,15 +85,15 @@ module ProjectHanlon
         end
 
         entry = entries[uuid]
-        old_version = object_doc['@version']
+        old_version = encoded_object_doc['@version']
         if entry === nil
           version = 1
         else
           version = (old_version > 0 ? old_version : entry[:version]) + 1
         end
-        object_doc['@version'] = version
-        entries[uuid] = { :version => version, :json => JSON.generate(object_doc) }
-        object_doc
+        encoded_object_doc['@version'] = version
+        entries[uuid] = { :version => version, :json => JSON.generate(encoded_object_doc) }
+        encoded_object_doc
       end
 
       # Adds or updates multiple object documents in the collection named 'collection_name'. This will
