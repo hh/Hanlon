@@ -5,7 +5,7 @@ gem 'base62'
 gem 'colored'
 gem 'bson'
 # bson_ext is disabled to facilitate support of running Hanlon under jRuby.
-# gem 'bson_ext'
+gem 'bson_ext'
 gem 'json'
 gem 'net-ssh'
 gem 'net-scp'
