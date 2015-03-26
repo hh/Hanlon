@@ -111,7 +111,7 @@ module ProjectHanlon
       # TODO: make optional
       # This will only affect the boot for install. It is helpful to debug errors
       def autologin_kernel_args
-        "console=tty0 console=ttyS0"
+        "console=tty0 console=ttyS0 coreos.autologin"
       end
 
       def config
